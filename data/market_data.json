@@ -1,22 +1,22 @@
 {
-  "lastUpdated": "2026-06-15T15:37:54.334055+00:00",
+  "lastUpdated": "2026-06-15T23:17:59.651914+00:00",
   "dax": {
-    "close": 24902.52,
-    "changePct": 1.08,
-    "sma200": 24186.03,
+    "close": 24635.3,
+    "changePct": 1.76,
+    "sma200": 24181.75,
     "high20": 25389.1,
     "aboveSma200": true,
     "new20DayHigh": false,
     "direction": "up"
   },
   "vix": {
-    "close": 16.31,
-    "changePct": -7.75,
+    "close": 16.2,
+    "changePct": -8.37,
     "direction": "down"
   },
   "breadth": {
-    "value": 61.54,
-    "previousValue": 56.41,
+    "value": 56.41,
+    "previousValue": 41.03,
     "direction": "up",
     "successfulTickers": 39,
     "failedTickers": [
@@ -24,15 +24,15 @@
     ]
   },
   "signal": {
-    "state": "STRONG_LONG",
-    "label": "Erittäin vahva risk-on",
-    "meaning": "Nousu saa erittäin vahvaa tukea",
+    "state": "LONG",
+    "label": "Risk-on / long bias",
+    "meaning": "Nousu saa vahvaa tukea",
     "reasons": [
       "DAX on 200 päivän SMA:n yläpuolella",
       "DAX sulkeutui edellistä päivää ylemmäs",
       "VIX laskee",
-      "Markkinaleveys paranee",
-      "Markkinaleveys on vahva, vähintään 60 %"
+      "Markkinaleveys on vähintään 55 %",
+      "Markkinaleveys ei heikkene"
     ]
   },
   "dataQualityNotes": [
