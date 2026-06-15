@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="fi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Market Signal Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">DAX / VIX / markkinaleveys</p>
+          <h1>Market Signal Dashboard</h1>
+          <p class="lede">
+            Päivittäinen riskisignaali DAX-indeksille, volatiliteetille ja DAX-osakkeiden
+            20 päivän keskiarvoleveydelle.
+          </p>
+        </div>
+        <div class="updated">
+          <span>Viimeisin päivitys</span>
+          <strong id="last-updated">Ladataan...</strong>
+        </div>
+      </header>
+
+      <section id="status-banner" class="signal signal-wait">
+        <div>
+          <span class="signal-kicker">Signaali</span>
+          <h2 id="signal-state">WAIT</h2>
+          <p id="signal-label">Odotetaan dataa</p>
+        </div>
+      </section>
+
+      <section id="error-panel" class="notice hidden" role="alert"></section>
+
+      <section class="card-grid" aria-label="Markkinamittarit">
+        <article class="metric-card">
+          <div class="card-header">
+            <h2>DAX</h2>
+            <span id="dax-trend" class="pill">-</span>
+          </div>
+          <dl>
+            <div>
+              <dt>Viimeisin sulku</dt>
+              <dd id="dax-close">-</dd>
+            </div>
+            <div>
+              <dt>Päivämuutos</dt>
+              <dd id="dax-change">-</dd>
+            </div>
+            <div>
+              <dt>200 pv SMA</dt>
+              <dd id="dax-sma200">-</dd>
+            </div>
+            <div>
+              <dt>20 pv huippu</dt>
+              <dd id="dax-high20">-</dd>
+            </div>
+          </dl>
+        </article>
+
+        <article class="metric-card">
+          <div class="card-header">
+            <h2>VIX</h2>
+            <span id="vix-direction" class="pill">-</span>
+          </div>
+          <dl>
+            <div>
+              <dt>Viimeisin sulku</dt>
+              <dd id="vix-close">-</dd>
+            </div>
+            <div>
+              <dt>Päivämuutos</dt>
+              <dd id="vix-change">-</dd>
+            </div>
+            <div>
+              <dt>Suunta</dt>
+              <dd id="vix-direction-text">-</dd>
+            </div>
+          </dl>
+        </article>
+
+        <article class="metric-card">
+          <div class="card-header">
+            <h2>Leveys</h2>
+            <span id="breadth-direction" class="pill">-</span>
+          </div>
+          <dl>
+            <div>
+              <dt>Yli 20 pv SMA</dt>
+              <dd id="breadth-value">-</dd>
+            </div>
+            <div>
+              <dt>Edellinen arvo</dt>
+              <dd id="breadth-previous">-</dd>
+            </div>
+            <div>
+              <dt>Onnistuneet tickerit</dt>
+              <dd id="breadth-success">-</dd>
+            </div>
+          </dl>
+        </article>
+      </section>
+
+      <section class="details-grid">
+        <article class="detail-panel">
+          <h2>Perustelut</h2>
+          <ul id="reasons-list"></ul>
+        </article>
+
+        <article class="detail-panel">
+          <h2>Datan laatu</h2>
+          <div id="quality-notes">
+            <p>Ei huomioita.</p>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

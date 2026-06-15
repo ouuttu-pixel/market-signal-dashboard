@@ -1,0 +1,33 @@
+{
+  "lastUpdated": null,
+  "dax": {
+    "close": null,
+    "changePct": null,
+    "sma200": null,
+    "high20": null,
+    "aboveSma200": false,
+    "new20DayHigh": false
+  },
+  "vix": {
+    "close": null,
+    "changePct": null,
+    "direction": "unknown"
+  },
+  "breadth": {
+    "value": null,
+    "previousValue": null,
+    "direction": "unknown",
+    "successfulTickers": 0,
+    "failedTickers": []
+  },
+  "signal": {
+    "state": "WAIT",
+    "label": "Odotustila / neutraali",
+    "reasons": [
+      "Odotetaan ensimmäistä onnistunutta datapäivitystä."
+    ]
+  },
+  "dataQualityNotes": [
+    "Placeholder-data. GitHub Actions korvaa tämän yfinance-datalla."
+  ]
+}
