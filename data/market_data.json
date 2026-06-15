@@ -1,40 +1,34 @@
 {
-  "lastUpdated": "2026-06-15T14:49:56.901971+00:00",
+  "lastUpdated": null,
   "dax": {
-    "close": 24931.69,
-    "changePct": 1.2,
-    "sma200": 24186.17,
-    "high20": 25389.1,
-    "aboveSma200": true,
-    "new20DayHigh": false,
-    "direction": "up"
+    "close": null,
+    "changePct": null,
+    "sma200": null,
+    "high20": null,
+    "aboveSma200": false,
+    "new20DayHigh": false
   },
   "vix": {
-    "close": 16.29,
-    "changePct": -7.86,
-    "direction": "down"
+    "close": null,
+    "changePct": null,
+    "direction": "unknown"
   },
   "breadth": {
-    "value": 61.54,
-    "previousValue": 56.41,
-    "direction": "up",
-    "successfulTickers": 39,
-    "failedTickers": [
-      "1COV.DE"
-    ]
+    "value": null,
+    "previousValue": null,
+    "direction": "unknown",
+    "successfulTickers": 0,
+    "failedTickers": []
   },
   "signal": {
-    "state": "LONG",
-    "label": "Risk-on / long bias",
+    "state": "WAIT",
+    "label": "Odota / neutraali",
+    "meaning": "Ei selvää etua",
     "reasons": [
-      "DAX on 200 päivän SMA:n yläpuolella",
-      "DAX sulkeutui edellistä päivää ylemmäs",
-      "VIX laskee",
-      "Leveys on vähintään 55 %",
-      "Leveys ei heikkene"
+      "Odotetaan ensimmäistä onnistunutta datapäivitystä."
     ]
   },
   "dataQualityNotes": [
-    "1 DAX-komponentin data epäonnistui."
+    "Placeholder-data. GitHub Actions korvaa tämän yfinance-datalla."
   ]
 }

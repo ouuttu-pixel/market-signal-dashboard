@@ -5,10 +5,14 @@
   --text: #16202a;
   --muted: #5d6a75;
   --border: #dfe5eb;
+  --strong-green: #046c4e;
+  --strong-green-bg: #bff0d9;
   --green: #087f5b;
   --green-bg: #d8f5e9;
   --yellow: #8a5d00;
   --yellow-bg: #fff2c2;
+  --orange: #b54708;
+  --orange-bg: #ffead5;
   --red: #b42318;
   --red-bg: #ffe0dc;
   --shadow: 0 16px 40px rgba(22, 32, 42, 0.08);
@@ -118,6 +122,18 @@ h1 {
   font-weight: 700;
 }
 
+.signal .signal-meaning {
+  margin-top: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.signal-strong-long {
+  background: var(--strong-green-bg);
+  color: var(--strong-green);
+}
+
 .signal-long {
   background: var(--green-bg);
   color: var(--green);
@@ -126,6 +142,11 @@ h1 {
 .signal-wait {
   background: var(--yellow-bg);
   color: var(--yellow);
+}
+
+.signal-caution {
+  background: var(--orange-bg);
+  color: var(--orange);
 }
 
 .signal-short-warning {

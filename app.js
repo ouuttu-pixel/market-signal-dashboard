@@ -1,9 +1,19 @@
 const DATA_URL = "data/market_data.json";
 
 const stateLabels = {
+  STRONG_LONG: "Erittäin vahva risk-on",
   LONG: "Risk-on / long bias",
-  WAIT: "Odotustila / neutraali",
-  SHORT_WARNING: "Varoitus / risk-off"
+  WAIT: "Odota / neutraali",
+  CAUTION: "Ensimmäiset varoitusmerkit",
+  SHORT_WARNING: "Korjausriski koholla"
+};
+
+const stateMeanings = {
+  STRONG_LONG: "Nousu saa erittäin vahvaa tukea",
+  LONG: "Nousu saa vahvaa tukea",
+  WAIT: "Ei selvää etua",
+  CAUTION: "Nousun laatu alkaa heiketä",
+  SHORT_WARNING: "Korjausliikkeen riski on koholla"
 };
 
 const directionLabels = {
@@ -39,6 +49,38 @@ function setPill(id, value) {
   element.classList.remove("up", "down");
   if (value === "up") element.classList.add("up");
   if (value === "down") element.classList.add("down");
+}
+
+function directionFromChange(changePct) {
+  if (typeof changePct !== "number" || Number.isNaN(changePct)) return "unknown";
+  if (changePct > 0) return "up";
+  if (changePct < 0) return "down";
+  return "flat";
+}
+
+function directionFromValues(latest, previous) {
+  if (typeof latest !== "number" || typeof previous !== "number") return "unknown";
+  if (latest > previous) return "up";
+  if (latest < previous) return "down";
+  return "flat";
+}
+
+function metricDirection(metric, previousKey = null) {
+  if (metric?.direction) return metric.direction;
+  if (typeof metric?.changePct === "number") return directionFromChange(metric.changePct);
+  if (previousKey && typeof metric?.value === "number" && typeof metric?.[previousKey] === "number") {
+    return directionFromValues(metric.value, metric[previousKey]);
+  }
+  return "unknown";
+}
+
+function daxDirection(dax) {
+  const explicitDirection = dax?.direction;
+  const changeDirection = directionFromChange(dax?.changePct);
+  if (explicitDirection === "up" || changeDirection === "up") return "up";
+  if (explicitDirection === "down" || changeDirection === "down") return "down";
+  if (explicitDirection === "flat" || changeDirection === "flat") return "flat";
+  return "unknown";
 }
 
 function formatTimestamp(value) {
@@ -107,27 +149,29 @@ function renderDashboard(data) {
 
   const signalState = data.signal?.state || "WAIT";
   const banner = document.getElementById("status-banner");
-  banner.className = `signal signal-${signalState.toLowerCase().replace("_", "-")}`;
+  banner.className = `signal signal-${signalState.toLowerCase().replaceAll("_", "-")}`;
 
   setText("signal-state", signalState);
   setText("signal-label", data.signal?.label || stateLabels[signalState] || "-");
+  setText("signal-meaning", data.signal?.meaning || stateMeanings[signalState] || "");
   setText("last-updated", formatTimestamp(data.lastUpdated));
 
   setText("dax-close", formatNumber(data.dax?.close));
   setText("dax-change", formatPercent(data.dax?.changePct));
   setText("dax-sma200", formatNumber(data.dax?.sma200));
   setText("dax-high20", formatNumber(data.dax?.high20));
-  setPill("dax-trend", data.dax?.new20DayHigh ? "up" : "flat");
+  setPill("dax-trend", daxDirection(data.dax));
 
   setText("vix-close", formatNumber(data.vix?.close));
   setText("vix-change", formatPercent(data.vix?.changePct));
-  setText("vix-direction-text", directionLabels[data.vix?.direction] || "-");
-  setPill("vix-direction", data.vix?.direction);
+  const vixDirection = metricDirection(data.vix);
+  setText("vix-direction-text", directionLabels[vixDirection] || "-");
+  setPill("vix-direction", vixDirection);
 
   setText("breadth-value", `${formatNumber(data.breadth?.value)} %`);
   setText("breadth-previous", `${formatNumber(data.breadth?.previousValue)} %`);
   setText("breadth-success", String(data.breadth?.successfulTickers ?? "-"));
-  setPill("breadth-direction", data.breadth?.direction);
+  setPill("breadth-direction", metricDirection(data.breadth, "previousValue"));
 
   renderReasons(data.signal?.reasons);
   renderQuality(data);

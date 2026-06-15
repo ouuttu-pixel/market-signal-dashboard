@@ -164,49 +164,97 @@ def vix_higher_low(close: pd.Series, lookback: int = 5) -> bool:
     return float(lows.iloc[-1]) > float(lows.iloc[-2])
 
 
-def label_for_state(state: str) -> str:
-    return {
-        "LONG": "Risk-on / long bias",
-        "WAIT": "Odotustila / neutraali",
-        "SHORT_WARNING": "Varoitus / risk-off",
-    }[state]
+SIGNAL_METADATA = {
+    "STRONG_LONG": {
+        "label": "Erittäin vahva risk-on",
+        "meaning": "Nousu saa erittäin vahvaa tukea",
+    },
+    "LONG": {
+        "label": "Risk-on / long bias",
+        "meaning": "Nousu saa vahvaa tukea",
+    },
+    "WAIT": {
+        "label": "Odota / neutraali",
+        "meaning": "Ei selvää etua",
+    },
+    "CAUTION": {
+        "label": "Ensimmäiset varoitusmerkit",
+        "meaning": "Nousun laatu alkaa heiketä",
+    },
+    "SHORT_WARNING": {
+        "label": "Korjausriski koholla",
+        "meaning": "Korjausliikkeen riski on koholla",
+    },
+}
+
+
+def metadata_for_state(state: str) -> dict[str, str]:
+    return SIGNAL_METADATA[state]
 
 
 def calculate_signal(dax: dict[str, Any], vix: dict[str, Any], breadth: dict[str, Any], stronger_warning: bool) -> dict[str, Any]:
-    reasons: list[str] = []
+    dax_above_sma200 = bool(dax["aboveSma200"])
+    dax_up = dax["direction"] == "up"
+    dax_down = dax["direction"] == "down"
+    vix_up = vix["direction"] == "up"
+    vix_down = vix["direction"] == "down"
+    breadth_up = breadth["direction"] == "up"
+    breadth_down = breadth["direction"] == "down"
+    breadth_value = breadth["value"]
+    breadth_strong = breadth_value is not None and breadth_value >= 60
+    breadth_healthy = breadth_value is not None and breadth_value >= 55
+    dax_new_20_day_high = bool(dax["new20DayHigh"])
 
-    long_conditions = [
-        (dax["aboveSma200"], "DAX on 200 päivän SMA:n yläpuolella"),
-        (dax["direction"] == "up", "DAX sulkeutui edellistä päivää ylemmäs"),
-        (vix["direction"] == "down", "VIX laskee"),
-        (breadth["value"] is not None and breadth["value"] >= 55, "Leveys on vähintään 55 %"),
-        (breadth["direction"] in {"up", "flat"}, "Leveys ei heikkene"),
-    ]
-
-    short_conditions = [
-        (dax["new20DayHigh"], "DAX teki uuden 20 päivän huipun"),
-        (vix["direction"] == "up", "VIX nousee"),
-        (breadth["direction"] == "down", "Leveys heikkenee"),
-    ]
-
-    if all(condition for condition, _ in long_conditions):
-        state = "LONG"
-        reasons = [reason for _, reason in long_conditions]
-    elif all(condition for condition, _ in short_conditions):
+    if vix_up and breadth_down and (dax_new_20_day_high or (dax_above_sma200 and dax_up)):
         state = "SHORT_WARNING"
-        reasons = [reason for _, reason in short_conditions]
+        reasons = [
+            "VIX nousee",
+            "Markkinaleveys heikkenee",
+            "DAX on edelleen korkealla / nousutrendissä",
+        ]
+        if dax_new_20_day_high:
+            reasons.append("DAX tekee uuden 20 päivän huipun")
         if stronger_warning:
             reasons.append("VIX on tehnyt korkeamman pohjan viimeisen 5 kaupankäyntipäivän aikana")
+    elif dax_up and vix_up:
+        state = "CAUTION"
+        reasons = ["DAX nousee, mutta VIX nousee mukana"]
+    elif dax_up and breadth_down:
+        state = "CAUTION"
+        reasons = ["DAX nousee, mutta markkinaleveys heikkenee"]
+    elif dax_above_sma200 and vix_up and not breadth_up:
+        state = "CAUTION"
+        reasons = ["Nousu jatkuu, mutta riskimittarit eivät enää tue sitä yhtä vahvasti"]
+    elif dax_above_sma200 and dax_up and vix_down and breadth_up and breadth_strong:
+        state = "STRONG_LONG"
+        reasons = [
+            "DAX on 200 päivän SMA:n yläpuolella",
+            "DAX sulkeutui edellistä päivää ylemmäs",
+            "VIX laskee",
+            "Markkinaleveys paranee",
+            "Markkinaleveys on vahva, vähintään 60 %",
+        ]
+    elif dax_above_sma200 and dax_up and vix_down and breadth_healthy and not breadth_down:
+        state = "LONG"
+        reasons = [
+            "DAX on 200 päivän SMA:n yläpuolella",
+            "DAX sulkeutui edellistä päivää ylemmäs",
+            "VIX laskee",
+            "Markkinaleveys on vähintään 55 %",
+            "Markkinaleveys ei heikkene",
+        ]
     else:
         state = "WAIT"
         reasons = [
-            "LONG-ehdot eivät täyty kokonaan",
-            "SHORT_WARNING-ehdot eivät täyty kokonaan",
+            "Signaalit ovat ristiriitaisia tai neutraaleja",
+            "Selvää etua long- tai short-puolelle ei ole",
         ]
 
+    metadata = metadata_for_state(state)
     return {
         "state": state,
-        "label": label_for_state(state),
+        "label": metadata["label"],
+        "meaning": metadata["meaning"],
         "reasons": reasons,
     }
 
@@ -222,7 +270,8 @@ def build_error_data(message: str, previous: dict[str, Any]) -> dict[str, Any]:
             "signal",
             {
                 "state": "WAIT",
-                "label": label_for_state("WAIT"),
+                "label": metadata_for_state("WAIT")["label"],
+                "meaning": metadata_for_state("WAIT")["meaning"],
                 "reasons": ["Datan haku epäonnistui."],
             },
         ),
@@ -305,6 +354,7 @@ def send_email_if_changed(previous: dict[str, Any], current: dict[str, Any]) -> 
             [
                 f"Signal: {current_state}",
                 f"Label: {current['signal']['label']}",
+                f"Meaning: {current['signal'].get('meaning', '')}",
                 "",
                 f"DAX close: {current['dax']['close']} ({current['dax']['changePct']}%)",
                 f"VIX close: {current['vix']['close']} ({current['vix']['changePct']}%)",
