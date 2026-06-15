@@ -149,7 +149,7 @@ function renderDashboard(data) {
 
   const signalState = data.signal?.state || "WAIT";
   const banner = document.getElementById("status-banner");
-  banner.className = `signal signal-${signalState.toLowerCase().replaceAll("_", "-")}`;
+  banner.className = `signal signal-${signalState.toLowerCase().replace(/_/g, "-")}`;
 
   setText("signal-state", signalState);
   setText("signal-label", data.signal?.label || stateLabels[signalState] || "-");
