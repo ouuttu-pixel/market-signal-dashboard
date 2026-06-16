@@ -58,6 +58,28 @@
               <dd id="dax-high20">-</dd>
             </div>
           </dl>
+          <div class="live-widget" aria-label="DAX live- tai viivästetty arvo ja graafi">
+            <span class="widget-label">Live / viivästetty arvo</span>
+            <div class="tradingview-widget-container">
+              <div class="tradingview-widget-container__widget"></div>
+              <script
+                type="text/javascript"
+                src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js"
+                async
+              >
+                {
+                  "symbol": "XETR:DAX",
+                  "width": "100%",
+                  "height": 220,
+                  "locale": "fi",
+                  "dateRange": "1D",
+                  "colorTheme": "light",
+                  "isTransparent": true,
+                  "autosize": false
+                }
+              </script>
+            </div>
+          </div>
         </article>
 
         <article class="metric-card">
@@ -79,6 +101,28 @@
               <dd id="vix-direction-text">-</dd>
             </div>
           </dl>
+          <div class="live-widget" aria-label="VIX live- tai viivästetty arvo ja graafi">
+            <span class="widget-label">Live / viivästetty arvo</span>
+            <div class="tradingview-widget-container">
+              <div class="tradingview-widget-container__widget"></div>
+              <script
+                type="text/javascript"
+                src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js"
+                async
+              >
+                {
+                  "symbol": "TVC:VIX",
+                  "width": "100%",
+                  "height": 220,
+                  "locale": "fi",
+                  "dateRange": "1D",
+                  "colorTheme": "light",
+                  "isTransparent": true,
+                  "autosize": false
+                }
+              </script>
+            </div>
+          </div>
         </article>
 
         <article class="metric-card">
@@ -115,6 +159,40 @@
             <p>Ei huomioita.</p>
           </div>
         </article>
+      </section>
+
+      <section class="signal-guide" aria-labelledby="signal-guide-title">
+        <div class="section-heading">
+          <h2 id="signal-guide-title">Signaalien selitteet</h2>
+          <p>Signaali perustuu DAX-trendiin, VIX-volatiliteettiin ja DAX-osakkeiden markkinaleveyteen.</p>
+        </div>
+        <div class="signal-guide-grid">
+          <article>
+            <span class="guide-state guide-strong-long">STRONG_LONG</span>
+            <h3>Erittäin vahva risk-on</h3>
+            <p>Nousu saa erittäin vahvaa tukea.</p>
+          </article>
+          <article>
+            <span class="guide-state guide-long">LONG</span>
+            <h3>Risk-on / long bias</h3>
+            <p>Nousu saa vahvaa tukea.</p>
+          </article>
+          <article>
+            <span class="guide-state guide-wait">WAIT</span>
+            <h3>Odota / neutraali</h3>
+            <p>Ei selvää etua.</p>
+          </article>
+          <article>
+            <span class="guide-state guide-caution">CAUTION</span>
+            <h3>Ensimmäiset varoitusmerkit</h3>
+            <p>Nousun laatu alkaa heiketä.</p>
+          </article>
+          <article>
+            <span class="guide-state guide-short-warning">SHORT_WARNING</span>
+            <h3>Korjausriski koholla</h3>
+            <p>Korjausliikkeen riski on koholla.</p>
+          </article>
+        </div>
       </section>
     </main>
 
