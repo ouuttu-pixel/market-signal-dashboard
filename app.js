@@ -1,4 +1,5 @@
 const DATA_URL = "data/market_data.json";
+const LIVE_MARKET_URL = "/.netlify/functions/live-market";
 
 const stateLabels = {
   STRONG_LONG: "Erittäin vahva risk-on",
@@ -91,6 +92,66 @@ function formatTimestamp(value) {
     dateStyle: "medium",
     timeStyle: "short"
   }).format(date);
+}
+
+function formatTime(value) {
+  if (!value) return "-";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "-";
+  return new Intl.DateTimeFormat("fi-FI", {
+    hour: "2-digit",
+    minute: "2-digit"
+  }).format(date);
+}
+
+function liveValueText(indexData) {
+  if (!indexData || typeof indexData.price !== "number") return "Data unavailable";
+  return formatNumber(indexData.price);
+}
+
+function renderLiveMarket(data) {
+  setText("dax-live-price", liveValueText(data.dax));
+  setText("dax-live-time", formatTime(data.dax?.marketTime || data.lastUpdated));
+  setText("vix-live-price", liveValueText(data.vix));
+  setText("vix-live-time", formatTime(data.vix?.marketTime || data.lastUpdated));
+
+  const status = data.errors?.length
+    ? `Päivitetty osittain ${formatTime(data.lastUpdated)}.`
+    : `Päivitetty ${formatTime(data.lastUpdated)}.`;
+  setText("live-market-status", status);
+}
+
+async function fetchLiveMarket() {
+  const button = document.getElementById("refresh-live-market");
+  if (button) {
+    button.disabled = true;
+    button.textContent = "Haetaan...";
+  }
+  setText("live-market-status", "Haetaan tuoreita arvoja...");
+
+  try {
+    const response = await fetch(LIVE_MARKET_URL, { cache: "no-store" });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      throw new Error(data.error || `Live-dataa ei voitu hakea (${response.status}).`);
+    }
+    if (data.errors?.length) {
+      console.warn("Live market data warnings:", data.errors);
+    }
+    renderLiveMarket(data);
+  } catch (error) {
+    console.warn("Live market data unavailable:", error);
+    setText("dax-live-price", "Data unavailable");
+    setText("dax-live-time", "-");
+    setText("vix-live-price", "Data unavailable");
+    setText("vix-live-time", "-");
+    setText("live-market-status", "Tuoreita arvoja ei voitu hakea.");
+  } finally {
+    if (button) {
+      button.disabled = false;
+      button.textContent = "Hae tuore DAX/VIX";
+    }
+  }
 }
 
 function renderReasons(reasons = []) {
@@ -188,3 +249,5 @@ fetch(DATA_URL, { cache: "no-store" })
   .catch((error) => {
     renderError(error.message || "Dataa ei voitu ladata.");
   });
+
+document.getElementById("refresh-live-market")?.addEventListener("click", fetchLiveMarket);
