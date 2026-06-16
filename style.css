@@ -100,6 +100,32 @@ h1 {
   font-size: 0.98rem;
 }
 
+.updated small {
+  display: block;
+  margin-top: 10px;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.live-refresh {
+  width: 100%;
+  margin-top: 14px;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--text);
+  color: #ffffff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.live-refresh:disabled {
+  cursor: progress;
+  opacity: 0.65;
+}
+
 .signal {
   display: flex;
   align-items: center;
@@ -296,14 +322,16 @@ li {
   text-transform: uppercase;
 }
 
-.tradingview-widget-container {
-  min-height: 92px;
-  overflow: hidden;
+.live-dl {
+  gap: 10px;
 }
 
-.tradingview-widget-container iframe {
-  display: block;
-  width: 100% !important;
+.live-dl div {
+  padding-bottom: 10px;
+}
+
+.live-dl dd {
+  max-width: 58%;
 }
 
 .section-heading {

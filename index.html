@@ -20,6 +20,8 @@
         <div class="updated">
           <span>Viimeisin päivitys</span>
           <strong id="last-updated">Ladataan...</strong>
+          <button id="refresh-live-market" class="live-refresh" type="button">Hae tuore DAX/VIX</button>
+          <small id="live-market-status">Tuoreita arvoja ei ole haettu.</small>
         </div>
       </header>
 
@@ -58,24 +60,18 @@
               <dd id="dax-high20">-</dd>
             </div>
           </dl>
-          <div class="live-widget" aria-label="DAX live- tai viivästetty arvo">
-            <span class="widget-label">Live / viivästetty arvo</span>
-            <div class="tradingview-widget-container">
-              <div class="tradingview-widget-container__widget"></div>
-              <script
-                type="text/javascript"
-                src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js"
-                async
-              >
-                {
-                  "symbol": "XETR:DAX",
-                  "width": "100%",
-                  "locale": "fi",
-                  "colorTheme": "light",
-                  "isTransparent": true
-                }
-              </script>
-            </div>
+          <div class="live-widget" aria-label="DAX tuore tai viivästetty arvo">
+            <span class="widget-label">Tuore / viivästetty arvo</span>
+            <dl class="live-dl">
+              <div>
+                <dt>Tuore arvo</dt>
+                <dd id="dax-live-price">Ei haettu</dd>
+              </div>
+              <div>
+                <dt>Päivitetty</dt>
+                <dd id="dax-live-time">-</dd>
+              </div>
+            </dl>
           </div>
         </article>
 
@@ -98,24 +94,18 @@
               <dd id="vix-direction-text">-</dd>
             </div>
           </dl>
-          <div class="live-widget" aria-label="VIX live- tai viivästetty arvo">
-            <span class="widget-label">Live / viivästetty arvo</span>
-            <div class="tradingview-widget-container">
-              <div class="tradingview-widget-container__widget"></div>
-              <script
-                type="text/javascript"
-                src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js"
-                async
-              >
-                {
-                  "symbol": "CBOE:VIX",
-                  "width": "100%",
-                  "locale": "fi",
-                  "colorTheme": "light",
-                  "isTransparent": true
-                }
-              </script>
-            </div>
+          <div class="live-widget" aria-label="VIX tuore tai viivästetty arvo">
+            <span class="widget-label">Tuore / viivästetty arvo</span>
+            <dl class="live-dl">
+              <div>
+                <dt>Tuore arvo</dt>
+                <dd id="vix-live-price">Ei haettu</dd>
+              </div>
+              <div>
+                <dt>Päivitetty</dt>
+                <dd id="vix-live-time">-</dd>
+              </div>
+            </dl>
           </div>
         </article>
 
