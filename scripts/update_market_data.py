@@ -4,6 +4,8 @@ import json
 import math
 import os
 import smtplib
+import urllib.parse
+import urllib.request
 from datetime import datetime, timezone
 from email.message import EmailMessage
 from pathlib import Path
@@ -99,6 +101,37 @@ def fetch_close_series(ticker: str, period: str = "1y") -> pd.Series:
     if len(close) < 2:
         raise ValueError(f"Not enough close data returned for {ticker}")
     return close
+
+
+def fetch_yahoo_chart_close_series(ticker: str, range_value: str = "1y") -> pd.Series:
+    encoded_ticker = urllib.parse.quote(ticker, safe="")
+    url = (
+        "https://query1.finance.yahoo.com/v8/finance/chart/"
+        f"{encoded_ticker}?interval=1d&range={range_value}"
+    )
+    request = urllib.request.Request(url, headers={"User-Agent": "market-signal-dashboard/1.0"})
+
+    with urllib.request.urlopen(request, timeout=30) as response:
+        payload = json.loads(response.read().decode("utf-8"))
+
+    result = payload.get("chart", {}).get("result", [None])[0]
+    if not result:
+        error = payload.get("chart", {}).get("error")
+        raise ValueError(f"No chart data returned for {ticker}: {error}")
+
+    timestamps = result.get("timestamp") or []
+    closes = result.get("indicators", {}).get("quote", [{}])[0].get("close") or []
+    values = [
+        (pd.to_datetime(timestamp, unit="s", utc=True), close)
+        for timestamp, close in zip(timestamps, closes)
+        if close is not None
+    ]
+
+    if len(values) < 2:
+        raise ValueError(f"Not enough chart close data returned for {ticker}")
+
+    index, close_values = zip(*values)
+    return pd.Series(close_values, index=index, dtype="float64")
 
 
 def pct_change(latest: float, previous: float) -> float:
@@ -280,8 +313,8 @@ def build_error_data(message: str, previous: dict[str, Any]) -> dict[str, Any]:
 
 
 def build_market_data() -> dict[str, Any]:
-    dax_close = fetch_close_series(DAX_TICKER, period="1y")
-    vix_close = fetch_close_series(VIX_TICKER, period="3mo")
+    dax_close = fetch_yahoo_chart_close_series(DAX_TICKER, range_value="1y")
+    vix_close = fetch_yahoo_chart_close_series(VIX_TICKER, range_value="3mo")
 
     if len(dax_close) < 200:
         raise ValueError("DAX data does not include enough history for 200-day SMA")
