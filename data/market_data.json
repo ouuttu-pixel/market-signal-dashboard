@@ -1,9 +1,9 @@
 {
-  "lastUpdated": "2026-06-16T22:57:52.265321+00:00",
+  "lastUpdated": "2026-06-17T05:52:39.277906+00:00",
   "dax": {
-    "close": 24894.01,
-    "changePct": 1.05,
-    "sma200": 24185.99,
+    "close": 24910.41,
+    "changePct": 0.07,
+    "sma200": 24190.34,
     "high20": 25389.1,
     "aboveSma200": true,
     "new20DayHigh": false,
@@ -16,8 +16,8 @@
   },
   "breadth": {
     "value": 58.97,
-    "previousValue": 56.41,
-    "direction": "up",
+    "previousValue": 58.97,
+    "direction": "flat",
     "successfulTickers": 39,
     "failedTickers": [
       "1COV.DE"
