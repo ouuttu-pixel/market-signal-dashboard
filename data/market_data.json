@@ -1,13 +1,13 @@
 {
-  "lastUpdated": "2026-06-22T22:28:40.328049+00:00",
+  "lastUpdated": "2026-06-23T05:54:08.304011+00:00",
   "dax": {
-    "close": 24985.82,
-    "changePct": -0.16,
-    "sma200": 24207.94,
-    "high20": 25389.1,
+    "close": 25139.69,
+    "changePct": 0.62,
+    "sma200": 24215.66,
+    "high20": 25184.89,
     "aboveSma200": true,
     "new20DayHigh": false,
-    "direction": "down"
+    "direction": "up"
   },
   "vix": {
     "close": 17.28,
@@ -15,9 +15,9 @@
     "direction": "up"
   },
   "breadth": {
-    "value": 53.85,
-    "previousValue": 61.54,
-    "direction": "down",
+    "value": 56.41,
+    "previousValue": 53.85,
+    "direction": "up",
     "successfulTickers": 39,
     "failedTickers": [
       "1COV.DE"
@@ -28,7 +28,7 @@
     "label": "Ensimmäiset varoitusmerkit",
     "meaning": "Nousun laatu alkaa heiketä",
     "reasons": [
-      "Nousu jatkuu, mutta riskimittarit eivät enää tue sitä yhtä vahvasti"
+      "DAX nousee, mutta VIX nousee mukana"
     ]
   },
   "dataQualityNotes": [
