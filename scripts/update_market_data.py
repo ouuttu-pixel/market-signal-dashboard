@@ -103,7 +103,7 @@ def fetch_close_series(ticker: str, period: str = "1y") -> pd.Series:
     return close
 
 
-def fetch_yahoo_chart_close_series(ticker: str, range_value: str = "1y") -> pd.Series:
+def fetch_yahoo_chart_data(ticker: str, range_value: str = "1y") -> dict[str, Any]:
     encoded_ticker = urllib.parse.quote(ticker, safe="")
     url = (
         "https://query1.finance.yahoo.com/v8/finance/chart/"
@@ -119,6 +119,7 @@ def fetch_yahoo_chart_close_series(ticker: str, range_value: str = "1y") -> pd.S
         error = payload.get("chart", {}).get("error")
         raise ValueError(f"No chart data returned for {ticker}: {error}")
 
+    meta = result.get("meta") or {}
     timestamps = result.get("timestamp") or []
     closes = result.get("indicators", {}).get("quote", [{}])[0].get("close") or []
     values = [
@@ -131,7 +132,31 @@ def fetch_yahoo_chart_close_series(ticker: str, range_value: str = "1y") -> pd.S
         raise ValueError(f"Not enough chart close data returned for {ticker}")
 
     index, close_values = zip(*values)
-    return pd.Series(close_values, index=index, dtype="float64")
+    return {
+        "close": pd.Series(close_values, index=index, dtype="float64"),
+        "meta": meta,
+    }
+
+
+def latest_and_previous_from_chart(chart_data: dict[str, Any]) -> tuple[pd.Series, float, float]:
+    close = chart_data["close"].copy()
+    meta = chart_data.get("meta") or {}
+
+    latest = meta.get("regularMarketPrice")
+    previous = meta.get("previousClose")
+
+    if latest is None:
+        latest = float(close.iloc[-1])
+    else:
+        latest = float(latest)
+        close.iloc[-1] = latest
+
+    if previous is None:
+        previous = float(close.iloc[-2])
+    else:
+        previous = float(previous)
+
+    return close, latest, previous
 
 
 def pct_change(latest: float, previous: float) -> float:
@@ -313,19 +338,16 @@ def build_error_data(message: str, previous: dict[str, Any]) -> dict[str, Any]:
 
 
 def build_market_data() -> dict[str, Any]:
-    dax_close = fetch_yahoo_chart_close_series(DAX_TICKER, range_value="1y")
-    vix_close = fetch_yahoo_chart_close_series(VIX_TICKER, range_value="3mo")
+    dax_chart = fetch_yahoo_chart_data(DAX_TICKER, range_value="1y")
+    vix_chart = fetch_yahoo_chart_data(VIX_TICKER, range_value="3mo")
+    dax_close, dax_latest, dax_previous = latest_and_previous_from_chart(dax_chart)
+    vix_close, vix_latest, vix_previous = latest_and_previous_from_chart(vix_chart)
 
     if len(dax_close) < 200:
         raise ValueError("DAX data does not include enough history for 200-day SMA")
 
-    dax_latest = float(dax_close.iloc[-1])
-    dax_previous = float(dax_close.iloc[-2])
     dax_sma200 = float(dax_close.rolling(200).mean().iloc[-1])
     dax_high20 = float(dax_close.tail(20).max())
-
-    vix_latest = float(vix_close.iloc[-1])
-    vix_previous = float(vix_close.iloc[-2])
 
     dax = {
         "close": clean_number(dax_latest),
