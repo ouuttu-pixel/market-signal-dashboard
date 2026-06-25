@@ -3,7 +3,7 @@ name: Update market data
 on:
   schedule:
     # 03:00 Finnish summer time is 00:00 UTC. Runs Tue-Sat to capture the previous trading day.
-    - cron: "00 20 * * 2-6"
+    - cron: "00 20 * * 1-5"
   workflow_dispatch:
 
 permissions:
