@@ -1,23 +1,23 @@
 {
-  "lastUpdated": "2026-06-26T23:48:18.887920+00:00",
+  "lastUpdated": "2026-06-29T23:39:17.195026+00:00",
   "dax": {
-    "close": 24671.22,
-    "changePct": -0.28,
-    "sma200": 24231.32,
+    "close": 24626.89,
+    "changePct": -1.47,
+    "sma200": 24237.48,
     "high20": 25139.69,
     "aboveSma200": true,
     "new20DayHigh": false,
     "direction": "down"
   },
   "vix": {
-    "close": 18.41,
-    "changePct": -2.54,
+    "close": 17.65,
+    "changePct": -4.13,
     "direction": "down"
   },
   "breadth": {
-    "value": 61.54,
-    "previousValue": 53.85,
-    "direction": "up",
+    "value": 51.28,
+    "previousValue": 61.54,
+    "direction": "down",
     "successfulTickers": 39,
     "failedTickers": [
       "1COV.DE"
