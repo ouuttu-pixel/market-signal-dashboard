@@ -1,4 +1,5 @@
-const DATA_URL = "data/market_data.json";
+const DATA_URL =
+  "https://raw.githubusercontent.com/ouuttu-pixel/market-signal-dashboard/main/data/market_data.json";
 const LIVE_MARKET_URL = "/.netlify/functions/live-market";
 
 const stateLabels = {
