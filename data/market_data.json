@@ -1,22 +1,22 @@
 {
-  "lastUpdated": "2026-07-24T21:05:39.214789+00:00",
+  "lastUpdated": "2026-07-27T21:12:07.096513+00:00",
   "dax": {
-    "close": 25099.0,
-    "changePct": 1.36,
-    "sma200": 24368.21,
+    "close": 25361.03,
+    "changePct": 1.04,
+    "sma200": 24372.03,
     "high20": 25817.89,
     "aboveSma200": true,
     "new20DayHigh": false,
     "direction": "up"
   },
   "vix": {
-    "close": 18.58,
-    "changePct": -0.64,
-    "direction": "down"
+    "close": 18.67,
+    "changePct": 0.48,
+    "direction": "up"
   },
   "breadth": {
-    "value": 51.28,
-    "previousValue": 46.15,
+    "value": 58.97,
+    "previousValue": 51.28,
     "direction": "up",
     "successfulTickers": 39,
     "failedTickers": [
@@ -24,12 +24,11 @@
     ]
   },
   "signal": {
-    "state": "WAIT",
-    "label": "Odota / neutraali",
-    "meaning": "Ei selvää etua",
+    "state": "CAUTION",
+    "label": "Ensimmäiset varoitusmerkit",
+    "meaning": "Nousun laatu alkaa heiketä",
     "reasons": [
-      "Signaalit ovat ristiriitaisia tai neutraaleja",
-      "Selvää etua long- tai short-puolelle ei ole"
+      "DAX nousee, mutta VIX nousee mukana"
     ]
   },
   "dataQualityNotes": [
