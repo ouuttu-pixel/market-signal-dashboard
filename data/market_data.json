@@ -1,38 +1,37 @@
 {
-  "lastUpdated": "2026-08-03T21:04:23.065415+00:00",
+  "lastUpdated": "2026-08-04T21:16:56.579565+00:00",
   "dax": {
-    "close": 26001.31,
-    "changePct": 1.45,
-    "sma200": 24404.57,
-    "high20": 26001.31,
+    "close": 26202.35,
+    "changePct": 0.77,
+    "sma200": 24414.22,
+    "high20": 26202.35,
     "aboveSma200": true,
     "new20DayHigh": true,
     "direction": "up"
   },
   "vix": {
-    "close": 15.86,
-    "changePct": -0.81,
-    "direction": "down"
+    "close": 16.5,
+    "changePct": 4.04,
+    "direction": "up"
   },
   "breadth": {
-    "value": 76.92,
-    "previousValue": 71.79,
-    "direction": "up",
+    "value": 71.79,
+    "previousValue": 76.92,
+    "direction": "down",
     "successfulTickers": 39,
     "failedTickers": [
       "1COV.DE"
     ]
   },
   "signal": {
-    "state": "STRONG_LONG",
-    "label": "Erittäin vahva risk-on",
-    "meaning": "Nousu saa erittäin vahvaa tukea",
+    "state": "SHORT_WARNING",
+    "label": "Korjausriski koholla",
+    "meaning": "Korjausliikkeen riski on koholla",
     "reasons": [
-      "DAX on 200 päivän SMA:n yläpuolella",
-      "DAX sulkeutui edellistä päivää ylemmäs",
-      "VIX laskee",
-      "Markkinaleveys paranee",
-      "Markkinaleveys on vahva, vähintään 60 %"
+      "VIX nousee",
+      "Markkinaleveys heikkenee",
+      "DAX on edelleen korkealla / nousutrendissä",
+      "DAX tekee uuden 20 päivän huipun"
     ]
   },
   "dataQualityNotes": [
