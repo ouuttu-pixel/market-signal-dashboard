@@ -1,38 +1,34 @@
 {
-  "lastUpdated": "2026-08-14T20:32:25.768326+00:00",
+  "lastUpdated": "2026-08-17T20:28:37.455892+00:00",
   "dax": {
-    "close": 26440.31,
-    "changePct": 0.53,
-    "sma200": 24498.05,
+    "close": 26338.61,
+    "changePct": -0.38,
+    "sma200": 24509.12,
     "high20": 26440.31,
     "aboveSma200": true,
-    "new20DayHigh": true,
-    "direction": "up"
-  },
-  "vix": {
-    "close": 14.25,
-    "changePct": -2.6,
+    "new20DayHigh": false,
     "direction": "down"
   },
+  "vix": {
+    "close": 15.19,
+    "changePct": 6.6,
+    "direction": "up"
+  },
   "breadth": {
-    "value": 56.41,
-    "previousValue": 51.28,
-    "direction": "up",
+    "value": 51.28,
+    "previousValue": 56.41,
+    "direction": "down",
     "successfulTickers": 39,
     "failedTickers": [
       "1COV.DE"
     ]
   },
   "signal": {
-    "state": "LONG",
-    "label": "Risk-on / long bias",
-    "meaning": "Nousu saa vahvaa tukea",
+    "state": "CAUTION",
+    "label": "Ensimmäiset varoitusmerkit",
+    "meaning": "Nousun laatu alkaa heiketä",
     "reasons": [
-      "DAX on 200 päivän SMA:n yläpuolella",
-      "DAX sulkeutui edellistä päivää ylemmäs",
-      "VIX laskee",
-      "Markkinaleveys on vähintään 55 %",
-      "Markkinaleveys ei heikkene"
+      "Nousu jatkuu, mutta riskimittarit eivät enää tue sitä yhtä vahvasti"
     ]
   },
   "dataQualityNotes": [
