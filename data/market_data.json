@@ -1,34 +1,37 @@
 {
-  "lastUpdated": "2026-09-04T22:11:28.412847+00:00",
+  "lastUpdated": "2026-09-07T22:35:30.074133+00:00",
   "dax": {
-    "close": 26046.4,
-    "changePct": 0.8,
-    "sma200": 24652.12,
+    "close": 26006.53,
+    "changePct": 0.01,
+    "sma200": 24666.03,
     "high20": 26569.99,
     "aboveSma200": true,
     "new20DayHigh": false,
     "direction": "up"
   },
   "vix": {
-    "close": 14.53,
-    "changePct": 1.47,
+    "close": 15.3,
+    "changePct": 5.3,
     "direction": "up"
   },
   "breadth": {
-    "value": 53.85,
-    "previousValue": 38.46,
-    "direction": "up",
+    "value": 46.15,
+    "previousValue": 53.85,
+    "direction": "down",
     "successfulTickers": 39,
     "failedTickers": [
       "1COV.DE"
     ]
   },
   "signal": {
-    "state": "CAUTION",
-    "label": "Ensimmäiset varoitusmerkit",
-    "meaning": "Nousun laatu alkaa heiketä",
+    "state": "SHORT_WARNING",
+    "label": "Korjausriski koholla",
+    "meaning": "Korjausliikkeen riski on koholla",
     "reasons": [
-      "DAX nousee, mutta VIX nousee mukana"
+      "VIX nousee",
+      "Markkinaleveys heikkenee",
+      "DAX on edelleen korkealla / nousutrendissä",
+      "VIX on tehnyt korkeamman pohjan viimeisen 5 kaupankäyntipäivän aikana"
     ]
   },
   "dataQualityNotes": [
