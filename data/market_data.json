@@ -1,22 +1,22 @@
 {
-  "lastUpdated": "2026-10-01T23:44:29.046469+00:00",
+  "lastUpdated": "2026-10-02T23:35:54.586601+00:00",
   "dax": {
-    "close": 24939.35,
-    "changePct": -1.81,
-    "sma200": 24824.14,
+    "close": 25231.2,
+    "changePct": 0.13,
+    "sma200": 24830.45,
     "high20": 26046.4,
     "aboveSma200": true,
     "new20DayHigh": false,
-    "direction": "down"
-  },
-  "vix": {
-    "close": 16.39,
-    "changePct": 0.31,
     "direction": "up"
   },
+  "vix": {
+    "close": 15.31,
+    "changePct": -6.59,
+    "direction": "down"
+  },
   "breadth": {
-    "value": 38.46,
-    "previousValue": 43.59,
+    "value": 23.08,
+    "previousValue": 38.46,
     "direction": "down",
     "successfulTickers": 39,
     "failedTickers": [
@@ -28,7 +28,7 @@
     "label": "Ensimmäiset varoitusmerkit",
     "meaning": "Nousun laatu alkaa heiketä",
     "reasons": [
-      "Nousu jatkuu, mutta riskimittarit eivät enää tue sitä yhtä vahvasti"
+      "DAX nousee, mutta markkinaleveys heikkenee"
     ]
   },
   "dataQualityNotes": [
